@@ -103,6 +103,12 @@ public class PrivilegesInterceptorImpl extends PrivilegesInterceptor {
             return CONTINUE_EVALUATION_REPLACE_RESULT;
         }
 
+        final boolean privateTenanctEnabled = config.isDashboardsPrivateTenantEnabled();//config.dynamic.kibana.private_tenant_enabled;
+
+        if (!privateTenanctEnabled) {
+            return CONTINUE_EVALUATION_REPLACE_RESULT;
+        }
+
         //next two lines needs to be retrieved from configuration
         final String dashboardsServerUsername = config.getDashboardsServerUsername();//config.dynamic.kibana.server_username;
         final String dashboardsIndexName = config.getDashboardsIndexname();//config.dynamic.kibana.index;

@@ -83,13 +83,16 @@ public class ConfigV6 {
 
         @JsonInclude(JsonInclude.Include.NON_NULL)
         public boolean multitenancy_enabled = true;
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        public boolean private_tenant_enabled = true;
         public String server_username = "kibanaserver";
         public String opendistro_role = null;
         public String index = ".kibana";
         public boolean do_not_fail_on_forbidden;
         @Override
         public String toString() {
-            return "Kibana [multitenancy_enabled=" + multitenancy_enabled + ", server_username=" + server_username + ", opendistro_role=" + opendistro_role
+            return "Kibana [multitenancy_enabled=" + multitenancy_enabled + ", private_tenant_enabled="
+                    + private_tenant_enabled + ", server_username=" + server_username + ", opendistro_role=" + opendistro_role
                     + ", index=" + index + ", do_not_fail_on_forbidden=" + do_not_fail_on_forbidden + "]";
         }
         
