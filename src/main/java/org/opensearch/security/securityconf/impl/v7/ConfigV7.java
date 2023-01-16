@@ -70,6 +70,7 @@ public class ConfigV7 {
         dynamic.kibana.index = c6.dynamic.kibana.index;
         dynamic.kibana.multitenancy_enabled = c6.dynamic.kibana.multitenancy_enabled;
         dynamic.kibana.private_tenant_enabled = c6.dynamic.kibana.private_tenant_enabled;
+        dynamic.kibana.default_tenant = c6.dynamic.kibana.default_tenant;
         dynamic.kibana.server_username = c6.dynamic.kibana.server_username;
         
         dynamic.http = new Http();
@@ -141,11 +142,14 @@ public class ConfigV7 {
         public String server_username = "kibanaserver";
         public String opendistro_role = null;
         public String index = ".kibana";
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        public String default_tenant;
+
         @Override
         public String toString() {
             return "Kibana [multitenancy_enabled=" + multitenancy_enabled + ", private_tenant_enabled="
             + private_tenant_enabled + ", server_username=" + server_username + ", opendistro_role=" + opendistro_role
-            + ", index=" + index + "]";
+            + ", default_tenant=" + default_tenant + "]";
         }
         
         

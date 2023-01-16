@@ -145,6 +145,10 @@ public class DynamicConfigModelV6 extends DynamicConfigModel {
         return config.dynamic.kibana.private_tenant_enabled;
     }
     @Override
+    public String dashboardsDefaultTenant() {
+        return config.dynamic.kibana.default_tenant;
+    }
+    @Override
     public boolean isDnfofEnabled() {
         return config.dynamic.do_not_fail_on_forbidden || config.dynamic.kibana.do_not_fail_on_forbidden;
     }

@@ -69,6 +69,8 @@ public abstract class DynamicConfigModel {
     public abstract String getDashboardsIndexname();
     public abstract boolean isDashboardsMultitenancyEnabled();
     public abstract boolean isDashboardsPrivateTenantEnabled();
+    public abstract String dashboardsDefaultTenant();
+
     public abstract boolean isDnfofEnabled();
     public abstract boolean isMultiRolespanEnabled();
     public abstract String getFilteredAliasMode();
