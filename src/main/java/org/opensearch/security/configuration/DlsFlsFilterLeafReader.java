@@ -393,11 +393,21 @@ class DlsFlsFilterLeafReader extends SequentialStoredFieldsLeafReader  {
             this.in = storedFieldsReader;
         }
 
-        @Override
         public void visitDocument(final int docID, StoredFieldVisitor visitor) throws IOException {
             visitor = getDlsFlsVisitor(visitor);
             try {
-                in.visitDocument(docID, visitor);
+                //in.visitDocument(docID, visitor); *** Uncomment this
+                System.out.println("******* Extra");
+            } finally {
+                finishVisitor(visitor);
+            }
+        }
+
+        public void document(final int docID, StoredFieldVisitor visitor) throws IOException {
+            visitor = getDlsFlsVisitor(visitor);
+            try {
+                //in.visitDocument(docID, visitor); *** Uncomment this
+                System.out.println("******* Extra");
             } finally {
                 finishVisitor(visitor);
             }
