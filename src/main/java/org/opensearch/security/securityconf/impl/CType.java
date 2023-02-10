@@ -47,6 +47,7 @@ import org.opensearch.security.securityconf.impl.v7.InternalUserV7;
 import org.opensearch.security.securityconf.impl.v7.RoleMappingsV7;
 import org.opensearch.security.securityconf.impl.v7.RoleV7;
 import org.opensearch.security.securityconf.impl.v7.TenantV7;
+import org.opensearch.security.securityconf.impl.v7.TenancyConfigV7;
 
 public enum CType {
 
@@ -55,6 +56,7 @@ public enum CType {
     ACTIONGROUPS(toMap(0, List.class, 1, ActionGroupsV6.class, 2,
             ActionGroupsV7.class)),
     CONFIG(toMap(1, ConfigV6.class, 2, ConfigV7.class)),
+    TENANCYCONFIG(toMap(2,TenancyConfigV7.class)),
     ROLES(toMap(1, RoleV6.class, 2, RoleV7.class)),
     ROLESMAPPING(toMap(1, RoleMappingsV6.class, 2, RoleMappingsV7.class)),
     TENANTS(toMap(2, TenantV7.class)),

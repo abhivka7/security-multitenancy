@@ -281,4 +281,6 @@ public abstract class PatchableResourceApiAction extends AbstractApiAction {
         List<String> allowedActions = ((ActionGroupsV7) mdc.getCEntry(name)).getAllowed_actions();
         return allowedActions.contains(name);
     }
+
+    public abstract List<Route> routes();
 }

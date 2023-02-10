@@ -69,6 +69,7 @@ import org.opensearch.security.securityconf.impl.v7.InternalUserV7;
 import org.opensearch.security.securityconf.impl.v7.RoleMappingsV7;
 import org.opensearch.security.securityconf.impl.v7.RoleV7;
 import org.opensearch.security.securityconf.impl.v7.TenantV7;
+import org.opensearch.security.securityconf.impl.v7.TenancyConfigV7;
 import org.opensearch.security.support.ConfigConstants;
 import org.opensearch.security.support.WildcardMatcher;
 import org.opensearch.threadpool.ThreadPool;
@@ -171,6 +172,7 @@ public class DynamicConfigFactory implements Initializable, ConfigurationChangeL
         SecurityDynamicConfiguration<?> nodesDn = cr.getConfiguration(CType.NODESDN);
         SecurityDynamicConfiguration<?> whitelistingSetting = cr.getConfiguration(CType.WHITELIST);
         SecurityDynamicConfiguration<?> allowlistingSetting = cr.getConfiguration(CType.ALLOWLIST);
+        SecurityDynamicConfiguration<?> tenancyConfig = cr.getConfiguration(CType.TENANCYCONFIG);
 
 
         if (log.isDebugEnabled()) {
@@ -183,7 +185,8 @@ public class DynamicConfigFactory implements Initializable, ConfigurationChangeL
                     " tenants: " + tenants.getImplementingClass() + " with " + tenants.getCEntries().size() + " entries\n" +
                     " nodesdn: " + nodesDn.getImplementingClass() + " with " + nodesDn.getCEntries().size() + " entries\n" +
                     " whitelist " + whitelistingSetting.getImplementingClass() + " with " + whitelistingSetting.getCEntries().size() + " entries\n" +
-                    " allowlist " + allowlistingSetting.getImplementingClass() + " with " + allowlistingSetting.getCEntries().size() + " entries\n";
+                    " allowlist " + allowlistingSetting.getImplementingClass() + " with " + allowlistingSetting.getCEntries().size() + " entries\n" +
+                    " tenancyConfig: " + tenancyConfig.getImplementingClass() + " with " + tenancyConfig.getCEntries().size() + " entries\n" ;
             log.debug(logmsg);
         }
 
