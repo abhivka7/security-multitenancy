@@ -138,6 +138,7 @@ import org.opensearch.security.securityconf.impl.v7.InternalUserV7;
 import org.opensearch.security.securityconf.impl.v7.RoleMappingsV7;
 import org.opensearch.security.securityconf.impl.v7.RoleV7;
 import org.opensearch.security.securityconf.impl.v7.TenantV7;
+import org.opensearch.security.securityconf.impl.v7.TenancyConfigV7;
 import org.opensearch.security.ssl.util.ExceptionUtils;
 import org.opensearch.security.support.ConfigConstants;
 import org.opensearch.security.support.ConfigHelper;
@@ -740,6 +741,7 @@ public class SecurityAdmin {
 
                 if(!legacy) {
 					success = retrieveFile(restHighLevelClient, cd + "security_tenants_" + date + ".yml", index, "tenants", legacy) && success;
+                    success = retrieveFile(restHighLevelClient, cd + "tenancy_config_" + date + ".yml", index, "tenants", legacy) && success;
                 }
 
                 final boolean populateFileIfEmpty = true;
@@ -1202,6 +1204,7 @@ public class SecurityAdmin {
 
         if(!legacy) {
             success = retrieveFile(tc, backupDir.getAbsolutePath()+"/tenants.yml", index, "tenants", legacy) && success;
+            success = retrieveFile(tc, backupDir.getAbsolutePath()+"/tenancy_config.yml", index, "tenancyconfig", legacy) && success;
         }
         success = retrieveFile(tc, backupDir.getAbsolutePath()+"/nodes_dn.yml", index, "nodesdn", legacy, true) && success;
         success = retrieveFile(tc, backupDir.getAbsolutePath()+"/whitelist.yml", index, "whitelist", legacy, true) && success;
@@ -1222,6 +1225,7 @@ public class SecurityAdmin {
         
         if(!legacy) {
             success = uploadFile(tc, cd+"tenants.yml", index, "tenants", legacy, resolveEnvVars) && success;
+            success = uploadFile(tc, cd+"tenancy_config.yml", index, "tenancyconfig", legacy, resolveEnvVars) && success;
         }
 
         success = uploadFile(tc, cd+"nodes_dn.yml", index, "nodesdn", legacy, resolveEnvVars, true) && success;
@@ -1274,6 +1278,7 @@ public class SecurityAdmin {
                 Migration.migrateNodesDn(SecurityDynamicConfiguration.fromNode(
                     DefaultObjectMapper.YAML_MAPPER.readTree(ConfigHelper.createFileOrStringReader(CType.NODESDN, 1, new File(backupDir,"nodes_dn.yml").getAbsolutePath(), true)),
                     CType.NODESDN, 1, 0, 0));
+//************* Check if we need to add tenancy config for migrate here.
             SecurityDynamicConfiguration<WhitelistingSettings> whitelistingSettings =
                     Migration.migrateWhitelistingSetting(SecurityDynamicConfiguration.fromNode(
                             DefaultObjectMapper.YAML_MAPPER.readTree(ConfigHelper.createFileOrStringReader(CType.WHITELIST, 1, new File(backupDir,"whitelist.yml").getAbsolutePath(), true)),
@@ -1382,7 +1387,7 @@ public class SecurityAdmin {
 
 	private static String[] getTypes(boolean legacy) {
 		if (legacy) {
-			return new String[]{"config", "roles", "rolesmapping", "internalusers", "actiongroups", "nodesdn", "audit"};
+			return new String[]{"config", "roles", "rolesmapping", "internalusers", "actiongroups", "nodesdn", "audit","tenancyconfig"};
 		}
 		return CType.lcStringValues().toArray(new String[0]);
 	}

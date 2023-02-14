@@ -139,6 +139,19 @@ public class ConfigurationLoaderSecurity7 {
                     }
                 }
 
+                // Since TenancyConfig is newly introduced data-type applying for existing clusters as well, we make it backward compatible by returning valid empty
+                // SecurityDynamicConfiguration.
+                if (cType == CType.TENANCYCONFIG) {
+                    try {
+                        SecurityDynamicConfiguration<?> empty = ConfigHelper.createEmptySdc(cType, ConfigurationRepository.getDefaultConfigVersion());
+                        rs.put(cType, empty);
+                        latch.countDown();
+                        return;
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
                 if(cType == CType.AUDIT) {
                     // Audit configuration doc is not available in the index.
                     // Configuration cannot be hot-reloaded.

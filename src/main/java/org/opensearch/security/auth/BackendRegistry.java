@@ -176,6 +176,7 @@ public class BackendRegistry {
      * @throws OpenSearchSecurityException
      */
     public boolean authenticate(final RestRequest request, final RestChannel channel, final ThreadContext threadContext) {
+        log.info("******************** Authenticate");
         final boolean isDebugEnabled = log.isDebugEnabled();
         if (request.getHttpChannel().getRemoteAddress() instanceof InetSocketAddress && isBlocked(((InetSocketAddress) request.getHttpChannel().getRemoteAddress()).getAddress())) {
             if (isDebugEnabled) {
@@ -316,6 +317,8 @@ public class BackendRegistry {
             }
 
             final String tenant = Utils.coalesce(request.header("securitytenant"), request.header("security_tenant"));
+
+            log.info("**** tenant from auth: ", tenant);
 
             if (isDebugEnabled) {
                 log.debug("Rest user '{}' is authenticated", authenticatedUser);
@@ -541,7 +544,7 @@ public class BackendRegistry {
                 if (isDebugEnabled) {
                     log.debug("Impersonate rest user from '{}' to '{}'", originalUser.toStringWithAttributes(), impersonatedUser.toStringWithAttributes());
                 }
-                
+
                 impersonatedUser.setRequestedTenant(originalUser.getRequestedTenant());
                 return impersonatedUser;
             }
