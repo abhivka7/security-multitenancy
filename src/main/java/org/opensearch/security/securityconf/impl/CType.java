@@ -56,14 +56,14 @@ public enum CType {
     ACTIONGROUPS(toMap(0, List.class, 1, ActionGroupsV6.class, 2,
             ActionGroupsV7.class)),
     CONFIG(toMap(1, ConfigV6.class, 2, ConfigV7.class)),
-    TENANCYCONFIG(toMap(2,TenancyConfigV7.class)),
     ROLES(toMap(1, RoleV6.class, 2, RoleV7.class)),
     ROLESMAPPING(toMap(1, RoleMappingsV6.class, 2, RoleMappingsV7.class)),
     TENANTS(toMap(2, TenantV7.class)),
     NODESDN(toMap(1, NodesDn.class, 2, NodesDn.class)),
     WHITELIST(toMap(1, WhitelistingSettings.class, 2, WhitelistingSettings.class)),
     ALLOWLIST(toMap(1, AllowlistingSettings.class, 2, AllowlistingSettings.class)),
-    AUDIT(toMap(1, AuditConfig.class, 2, AuditConfig.class));
+    AUDIT(toMap(1, AuditConfig.class, 2, AuditConfig.class)),
+    TENANCYCONFIG(toMap(2,TenancyConfigV7.class));
 
     private Map<Integer, Class<?>> implementations;
 

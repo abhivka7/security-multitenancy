@@ -64,6 +64,7 @@ public class TenancyConfigAction extends PatchableResourceApiAction{
 
     @Override
     protected void handleGet(RestChannel channel, RestRequest request, Client client, final JsonNode content) throws IOException{
+
         final SecurityDynamicConfiguration<?> configuration = load(getConfigName(), true);
 
         filter(configuration);

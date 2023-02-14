@@ -282,5 +282,4 @@ public abstract class PatchableResourceApiAction extends AbstractApiAction {
         return allowedActions.contains(name);
     }
 
-    public abstract List<Route> routes();
 }
