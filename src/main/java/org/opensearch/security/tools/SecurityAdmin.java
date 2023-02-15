@@ -1226,6 +1226,7 @@ public class SecurityAdmin {
         if(!legacy) {
             success = uploadFile(tc, cd+"tenants.yml", index, "tenants", legacy, resolveEnvVars) && success;
             success = uploadFile(tc, cd+"tenancy_config.yml", index, "tenancyconfig", legacy, resolveEnvVars) && success;
+
         }
 
         success = uploadFile(tc, cd+"nodes_dn.yml", index, "nodesdn", legacy, resolveEnvVars, true) && success;
