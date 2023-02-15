@@ -248,12 +248,13 @@ public class ConfigurationLoaderSecurity7 {
         final long seqNo = singleGetResponse.getSeqNo();
         final long primaryTerm = singleGetResponse.getPrimaryTerm();
 
-
-
         if (ref == null || ref.length() == 0) {
             log.error("Empty or null byte reference for {}", id);
             return null;
         }
+
+        log.info("************** Tenancy_abhivka toConfig output : " + ref.utf8ToString());
+
 
         XContentParser parser = null;
 
@@ -270,6 +271,7 @@ public class ConfigurationLoaderSecurity7 {
             parser.nextToken();
 
             final String jsonAsString = SecurityUtils.replaceEnvVars(new String(parser.binaryValue(), StandardCharsets.UTF_8), settings);
+            log.info("************** Tenancy_abhivka toConfig jsonAsString : " + jsonAsString);
             final JsonNode jsonNode = DefaultObjectMapper.readTree(jsonAsString);
             int configVersion = 1;
 

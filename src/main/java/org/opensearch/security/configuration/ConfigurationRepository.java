@@ -140,7 +140,7 @@ public class ConfigurationRepository {
                                     if(DEFAULT_CONFIG_VERSION == 2) {
                                         ConfigHelper.uploadFile(client, cd+"tenants.yml", securityIndex, CType.TENANTS, DEFAULT_CONFIG_VERSION);
                                         LOGGER.info("************** Tenancy_abhivka Uploading tenacyconfig file");
-                                        ConfigHelper.uploadFile(client, cd+"tenancy_config.yml", securityIndex, CType.TENANCYCONFIG, DEFAULT_CONFIG_VERSION,populateEmptyIfFileMissing);
+                                        ConfigHelper.uploadFile(client, cd+"tenancy_config.yml", securityIndex, CType.TENANCYCONFIG, DEFAULT_CONFIG_VERSION, populateEmptyIfFileMissing);
                                         LOGGER.info("************** Tenancy_abhivka Uploaded tenacyconfig file");
                                     }
                                     ConfigHelper.uploadFile(client, cd+"nodes_dn.yml", securityIndex, CType.NODESDN, DEFAULT_CONFIG_VERSION, populateEmptyIfFileMissing);

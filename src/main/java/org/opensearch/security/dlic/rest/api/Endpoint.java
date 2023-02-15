@@ -30,5 +30,5 @@ public enum Endpoint {
     ALLOWLIST,
     NODESDN,
     SSL,
-    TENANTSCONFIG;
+    TENANCYCONFIG;
 }

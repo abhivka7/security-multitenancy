@@ -39,6 +39,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 
+import org.apache.kafka.common.record.MemoryRecordsBuilder;
 import org.opensearch.ExceptionsHelper;
 import org.opensearch.common.bytes.BytesReference;
 import org.opensearch.common.xcontent.ToXContent;
@@ -50,9 +51,11 @@ import org.opensearch.security.NonValidatingObjectMapper;
 import org.opensearch.security.securityconf.Hashed;
 import org.opensearch.security.securityconf.Hideable;
 import org.opensearch.security.securityconf.StaticDefinable;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class SecurityDynamicConfiguration<T> implements ToXContent {
-    
+    public static Logger log = LogManager.getLogger();
     private static final TypeReference<HashMap<String,Object>> typeRefMSO = new TypeReference<HashMap<String,Object>>() {};
 
     @JsonIgnore
@@ -71,8 +74,10 @@ public class SecurityDynamicConfiguration<T> implements ToXContent {
     }
 
     public static <T> SecurityDynamicConfiguration<T> fromJson(String json, CType ctype, int version, long seqNo, long primaryTerm, boolean acceptInvalid) throws IOException {
+        log.info("************** Tenancy_abhivka fromJson input json:" + json );
         SecurityDynamicConfiguration<T> sdc = null;
         if(ctype != null) {
+            log.info("************** Tenancy_abhivka fromJson input ctype:" + ctype.toLCString() );
             final Class<?> implementationClass = ctype.getImplementationClass().get(version);
             if(implementationClass == null) {
                 throw new IllegalArgumentException("No implementation class found for "+ctype+" and config version "+version);
@@ -85,13 +90,21 @@ public class SecurityDynamicConfiguration<T> implements ToXContent {
             validate(sdc, version, ctype);
         
         } else {
+            log.info("************** Tenancy_abhivka fromJson empty ctype null" );
             sdc = new SecurityDynamicConfiguration<T>();
         }
-        
+
+        log.info("************** Tenancy_abhivka fromJson input version:" + version );
+        log.info("************** Tenancy_abhivka fromJson input seqNo:" + seqNo );
+        log.info("************** Tenancy_abhivka fromJson input primaryTerm:" + primaryTerm );
+        log.info("************** Tenancy_abhivka fromJson input acceptInvalid:" + acceptInvalid );
+
         sdc.ctype = ctype;
         sdc.seqNo = seqNo;
         sdc.primaryTerm = primaryTerm;
         sdc.version = version;
+
+        log.info("************** Tenancy_abhivka fromJson sdc output:" + sdc.toString() );
 
         return sdc;
     }

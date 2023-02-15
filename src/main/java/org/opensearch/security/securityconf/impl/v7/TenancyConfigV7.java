@@ -10,9 +10,4 @@ public class TenancyConfigV7 {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public boolean private_tenant_enabled = true;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    public String default_tenant = "";
-
-    public String[] preferred_tenant_list = {"Global", "Private"};
-
 }

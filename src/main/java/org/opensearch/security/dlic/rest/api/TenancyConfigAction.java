@@ -21,6 +21,7 @@ import org.opensearch.security.auditlog.AuditLog;
 import org.opensearch.security.configuration.AdminDNs;
 import org.opensearch.security.configuration.ConfigurationRepository;
 import org.opensearch.security.dlic.rest.validation.AbstractConfigurationValidator;
+import org.opensearch.security.dlic.rest.validation.TenancyConfigValidator;
 import org.opensearch.security.dlic.rest.validation.SecurityConfigValidator;
 import org.opensearch.security.privileges.PrivilegesEvaluator;
 import org.opensearch.security.securityconf.impl.CType;
@@ -72,17 +73,17 @@ public class TenancyConfigAction extends PatchableResourceApiAction{
 
         final SecurityDynamicConfiguration<?> configuration = load(getConfigName(), true);
 
-        log.info("************** Tenancy_abhivka Enter handleget, configuration : ", configuration);
+        log.info("************** Tenancy_abhivka Enter handleget, configuration : " + configuration);
 
         filter(configuration);
 
-        successResponse(channel);
+        successResponse(channel,configuration);
     }
 
 
     @Override
     protected AbstractConfigurationValidator getValidator(RestRequest request, BytesReference ref, Object... params) {
-        return null;
+        return new TenancyConfigValidator(request, ref, this.settings, params);
     }
 
     @Override
@@ -108,7 +109,14 @@ public class TenancyConfigAction extends PatchableResourceApiAction{
     }
 
     @Override
+    protected boolean hasPermissionsToCreate(final SecurityDynamicConfiguration<?> dynamicConfigFactory,
+                                             final Object content,
+                                             final String resourceName) {
+        return true;
+    }
+
+    @Override
     protected Endpoint getEndpoint() {
-        return Endpoint.TENANTSCONFIG;
+        return Endpoint.TENANCYCONFIG;
     }
 }

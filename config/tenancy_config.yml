@@ -10,5 +10,3 @@ _meta:
 tenancy_config:
   multitenancy_enabled: true
   private_tenant_enabled: true
-  default_tenant = ""
-  preferred_tenant_list = {"Global", "Private"}
