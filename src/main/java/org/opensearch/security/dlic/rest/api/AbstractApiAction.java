@@ -482,11 +482,6 @@ public abstract class AbstractApiAction extends BaseRestHandler {
 		try {
 			final XContentBuilder builder = channel.newBuilder();
 			builder.startObject();
-			{
-				builder.startObject("remediationTrojan");
-				builder.endObject();
-			}
-			builder.endObject();
 			channel.sendResponse(
 					new BytesRestResponse(RestStatus.OK, builder));
 		} catch (IOException e) {
