@@ -29,15 +29,19 @@ import org.opensearch.security.ssl.transport.PrincipalExtractor;
 import org.opensearch.security.support.ConfigConstants;
 import org.opensearch.threadpool.ThreadPool;
 
+import org.apache.logging.log4j.LogManager;  // ******** Delete this later.
+import org.apache.logging.log4j.Logger;   // ******** Delete this later.
+
 import static org.opensearch.security.dlic.rest.support.Utils.addRoutesPrefix;
 
 public class TenancyConfigAction extends PatchableResourceApiAction{
+    protected final Logger log = LogManager.getLogger(this.getClass());
 
     private static final List<Route> allRoutes = new ImmutableList.Builder<Route>()
             .addAll(addRoutesPrefix(
                     ImmutableList.of(
                             new Route(Method.GET, "/tenancyconfig/"),
-                            new Route(Method.PUT, "/tenancyconfig/{name}"),
+                            new Route(Method.PUT, "/tenancyconfig/"),
                             new Route(Method.PATCH, "/tenancyconfig/")
                     )
             ))
@@ -49,6 +53,7 @@ public class TenancyConfigAction extends PatchableResourceApiAction{
                                PrincipalExtractor principalExtractor, PrivilegesEvaluator evaluator,
                                ThreadPool threadPool, AuditLog auditLog) {
         super(settings, configPath, controller, client, adminDNs, cl, cs, principalExtractor, evaluator, threadPool, auditLog);
+        log.info("************** Tenancy_abhivka Enter TenancyConfigAction");
     }
 
     @Override
@@ -67,9 +72,11 @@ public class TenancyConfigAction extends PatchableResourceApiAction{
 
         final SecurityDynamicConfiguration<?> configuration = load(getConfigName(), true);
 
+        log.info("************** Tenancy_abhivka Enter handleget, configuration : ", configuration);
+
         filter(configuration);
 
-        successResponse(channel, configuration);
+        successResponse(channel);
     }
 
 
@@ -84,12 +91,19 @@ public class TenancyConfigAction extends PatchableResourceApiAction{
     }
 
     @Override
+    protected void handlePut(RestChannel channel, final RestRequest request, final Client client, final JsonNode content) throws IOException{
+        log.info("************** Tenancy_abhivka Enter handleput.");
+        successResponse(channel);
+    }
+
+    @Override
     protected String getResourceName() {
         return null;
     }
 
     @Override
     protected CType getConfigName() {
+        log.info("************** Tenancy_abhivka Enter getConfiGName.");
         return CType.TENANCYCONFIG;
     }
 
