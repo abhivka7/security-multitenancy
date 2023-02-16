@@ -56,6 +56,7 @@ import org.opensearch.security.configuration.StaticResourceException;
 import org.opensearch.security.securityconf.impl.AllowlistingSettings;
 import org.opensearch.security.securityconf.impl.CType;
 import org.opensearch.security.securityconf.impl.NodesDn;
+import org.opensearch.security.securityconf.TenancyConfigModel;
 import org.opensearch.security.securityconf.impl.SecurityDynamicConfiguration;
 import org.opensearch.security.securityconf.impl.WhitelistingSettings;
 import org.opensearch.security.securityconf.impl.v6.ActionGroupsV6;
@@ -73,8 +74,11 @@ import org.opensearch.security.securityconf.impl.v7.TenancyConfigV7;
 import org.opensearch.security.support.ConfigConstants;
 import org.opensearch.security.support.WildcardMatcher;
 import org.opensearch.threadpool.ThreadPool;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class DynamicConfigFactory implements Initializable, ConfigurationChangeListener {
+    protected final Logger log = LogManager.getLogger(this.getClass());
 
     public static final EventBusBuilder EVENT_BUS_BUILDER = EventBus.builder();
     private static SecurityDynamicConfiguration<RoleV7> staticRoles = SecurityDynamicConfiguration.empty();
@@ -118,8 +122,7 @@ public class DynamicConfigFactory implements Initializable, ConfigurationChangeL
 
         return original;
     }
-    
-    protected final Logger log = LogManager.getLogger(this.getClass());
+
     private final ConfigurationRepository cr;
     private final AtomicBoolean initialized = new AtomicBoolean();
     private final EventBus eventBus = EVENT_BUS_BUILDER.logger(new JavaLogger(DynamicConfigFactory.class.getCanonicalName())).build();
@@ -167,6 +170,7 @@ public class DynamicConfigFactory implements Initializable, ConfigurationChangeL
         SecurityDynamicConfiguration<?> tenancyConfig = cr.getConfiguration(CType.TENANCYCONFIG);
 
 
+
         if (log.isDebugEnabled()) {
             String logmsg = "current config (because of " + typeToConfig.keySet() + ")\n" +
                     " actionGroups: " + actionGroups.getImplementingClass() + " with " + actionGroups.getCEntries().size() + " entries\n" +
@@ -189,6 +193,7 @@ public class DynamicConfigFactory implements Initializable, ConfigurationChangeL
         final WhitelistingSettings whitelist = (WhitelistingSettings) cr.getConfiguration(CType.WHITELIST).getCEntry("config");
         final AllowlistingSettings allowlist = (AllowlistingSettings) cr.getConfiguration(CType.ALLOWLIST).getCEntry("config");
         final AuditConfig audit = (AuditConfig)cr.getConfiguration(CType.AUDIT).getCEntry("config");
+        final TenancyConfigModel tcm ;
 
         if(config.getImplementingClass() == ConfigV7.class) {
                 //statics
@@ -231,6 +236,7 @@ public class DynamicConfigFactory implements Initializable, ConfigurationChangeL
 
             //rebuild v7 Models
             dcm = new DynamicConfigModelV7(getConfigV7(config), opensearchSettings, configPath, iab);
+            tcm = new TenancyConfigModel(getTenancyConfig(tenancyConfig));
             ium = new InternalUsersModelV7((SecurityDynamicConfiguration<InternalUserV7>) internalusers,
                 (SecurityDynamicConfiguration<RoleV7>) roles,
                 (SecurityDynamicConfiguration<RoleMappingsV7>) rolesmapping);
@@ -240,6 +246,7 @@ public class DynamicConfigFactory implements Initializable, ConfigurationChangeL
 
             //rebuild v6 Models
             dcm = new DynamicConfigModelV6(getConfigV6(config), opensearchSettings, configPath, iab);
+            tcm = new TenancyConfigModel(getTenancyConfig(tenancyConfig));
             ium = new InternalUsersModelV6((SecurityDynamicConfiguration<InternalUserV6>) internalusers);
             cm = new ConfigModelV6((SecurityDynamicConfiguration<RoleV6>) roles, (SecurityDynamicConfiguration<ActionGroupsV6>)actionGroups, (SecurityDynamicConfiguration<RoleMappingsV6>)rolesmapping, dcm, opensearchSettings);
 
@@ -250,6 +257,7 @@ public class DynamicConfigFactory implements Initializable, ConfigurationChangeL
         eventBus.post(dcm);
         eventBus.post(ium);
         eventBus.post(nm);
+        eventBus.post(tcm);
         eventBus.post(whitelist==null? defaultWhitelistingSettings: whitelist);
         eventBus.post(allowlist==null? defaultAllowlistingSettings: allowlist);
         if (cr.isAuditHotReloadingEnabled()) {
@@ -270,6 +278,17 @@ public class DynamicConfigFactory implements Initializable, ConfigurationChangeL
         @SuppressWarnings("unchecked")
         SecurityDynamicConfiguration<ConfigV7> c = (SecurityDynamicConfiguration<ConfigV7>) sdc;
         return c.getCEntry("config");
+    }
+
+    private static TenancyConfigV7 getTenancyConfig(SecurityDynamicConfiguration<?> sdc) {
+        final Logger log = LogManager.getLogger();
+        log.info("************** Tenancy_abhivka Enter getTenancyConfig sdc: " + sdc.toString());
+        @SuppressWarnings("unchecked")
+        SecurityDynamicConfiguration<TenancyConfigV7> c = (SecurityDynamicConfiguration<TenancyConfigV7>) sdc;
+
+        log.info("************** Tenancy_abhivka Enter getTenancyConfig: " + c.toString());
+        log.info("************** Tenancy_abhivka Output getTenancyConfig: " + c.getCEntry("tenancyconfig"));
+        return c.getCEntry("tenancy_config");
     }
     
     @Override

@@ -204,6 +204,7 @@ public class SecurityDynamicConfiguration<T> implements ToXContent {
     
     @JsonIgnore
     public T getCEntry(String key) {
+        log.info("************** Tenancy_abhivka centries = " + centries.toString());
         return centries.get(key);
     }
     

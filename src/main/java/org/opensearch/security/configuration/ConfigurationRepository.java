@@ -291,10 +291,14 @@ public class ConfigurationRepository {
      * @return can also return empty in case it was never loaded
      */
     public SecurityDynamicConfiguration<?> getConfiguration(CType configurationType) {
+        LOGGER.info("************** Tenancy_abhivka getConfiguration configurationType = " + configurationType);
         SecurityDynamicConfiguration<?> conf=  configCache.getIfPresent(configurationType);
         if(conf != null) {
+            LOGGER.info("************** Tenancy_abhivka conf = " + conf.toString());
+            LOGGER.info("************** Tenancy_abhivka conf deepclone= " + conf.deepClone().toString());
             return conf.deepClone();
         }
+        LOGGER.info("************** Tenancy_abhivka conf = null");
         return SecurityDynamicConfiguration.empty();
     }
 
