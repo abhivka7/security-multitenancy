@@ -541,7 +541,7 @@ public class BackendRegistry {
                 if (isDebugEnabled) {
                     log.debug("Impersonate rest user from '{}' to '{}'", originalUser.toStringWithAttributes(), impersonatedUser.toStringWithAttributes());
                 }
-                
+
                 impersonatedUser.setRequestedTenant(originalUser.getRequestedTenant());
                 return impersonatedUser;
             }
