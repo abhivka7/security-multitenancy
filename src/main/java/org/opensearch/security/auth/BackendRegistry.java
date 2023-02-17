@@ -316,7 +316,6 @@ public class BackendRegistry {
             }
 
             final String tenant = Utils.coalesce(request.header("securitytenant"), request.header("security_tenant"));
-
             if (isDebugEnabled) {
                 log.debug("Rest user '{}' is authenticated", authenticatedUser);
                 log.debug("securitytenant '{}'", tenant);
@@ -541,7 +540,7 @@ public class BackendRegistry {
                 if (isDebugEnabled) {
                     log.debug("Impersonate rest user from '{}' to '{}'", originalUser.toStringWithAttributes(), impersonatedUser.toStringWithAttributes());
                 }
-                
+
                 impersonatedUser.setRequestedTenant(originalUser.getRequestedTenant());
                 return impersonatedUser;
             }
