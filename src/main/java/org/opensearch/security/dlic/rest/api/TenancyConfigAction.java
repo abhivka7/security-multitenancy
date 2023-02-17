@@ -30,13 +30,9 @@ import org.opensearch.security.ssl.transport.PrincipalExtractor;
 import org.opensearch.security.support.ConfigConstants;
 import org.opensearch.threadpool.ThreadPool;
 
-import org.apache.logging.log4j.LogManager;  // ******** Delete this later.
-import org.apache.logging.log4j.Logger;   // ******** Delete this later.
-
 import static org.opensearch.security.dlic.rest.support.Utils.addRoutesPrefix;
 
 public class TenancyConfigAction extends PatchableResourceApiAction{
-    protected final Logger log = LogManager.getLogger(this.getClass());
 
     private static final List<Route> allRoutes = new ImmutableList.Builder<Route>()
             .addAll(addRoutesPrefix(
@@ -54,17 +50,10 @@ public class TenancyConfigAction extends PatchableResourceApiAction{
                                PrincipalExtractor principalExtractor, PrivilegesEvaluator evaluator,
                                ThreadPool threadPool, AuditLog auditLog) {
         super(settings, configPath, controller, client, adminDNs, cl, cs, principalExtractor, evaluator, threadPool, auditLog);
-        log.info("************** Tenancy_abhivka Enter TenancyConfigAction");
     }
 
     @Override
     public List<Route> routes() {
-//        if(adminDNs.isAdmin())
-//        {
-//            return allRoutes;
-//        }
-//
-//        return Collections.emptyList();
         return allRoutes;
     }
 
@@ -72,11 +61,7 @@ public class TenancyConfigAction extends PatchableResourceApiAction{
     protected void handleGet(RestChannel channel, RestRequest request, Client client, final JsonNode content) throws IOException{
 
         final SecurityDynamicConfiguration<?> configuration = load(getConfigName(), true);
-
-        log.info("************** Tenancy_abhivka Enter handleget, configuration : " + configuration);
-
         filter(configuration);
-
         successResponse(channel,configuration);
     }
 
@@ -93,7 +78,6 @@ public class TenancyConfigAction extends PatchableResourceApiAction{
 
     @Override
     protected void handlePut(RestChannel channel, final RestRequest request, final Client client, final JsonNode content) throws IOException{
-        log.info("************** Tenancy_abhivka Enter handleput.");
         successResponse(channel);
     }
 
@@ -104,14 +88,12 @@ public class TenancyConfigAction extends PatchableResourceApiAction{
 
     @Override
     protected CType getConfigName() {
-        log.info("************** Tenancy_abhivka Enter getConfiGName.");
         return CType.TENANCYCONFIG;
     }
 
     @Override
     protected boolean hasPermissionsToCreate(final SecurityDynamicConfiguration<?> dynamicConfigFactory,
-                                             final Object content,
-                                             final String resourceName) {
+                                             final Object content, final String resourceName) {
         return true;
     }
 

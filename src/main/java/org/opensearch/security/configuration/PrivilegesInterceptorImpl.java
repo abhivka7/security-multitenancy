@@ -105,13 +105,6 @@ public class PrivilegesInterceptorImpl extends PrivilegesInterceptor {
             return CONTINUE_EVALUATION_REPLACE_RESULT;
         }
 
-        final boolean privateTenantEnabled = tenancyconfig.isDashboardsPrivateTenantEnabled();
-        final String dashboardsDefaultTenant = tenancyconfig.dashboardsDefaultTenant();
-
-        if (!privateTenantEnabled) {
-            return CONTINUE_EVALUATION_REPLACE_RESULT;
-        }
-
         //next two lines needs to be retrieved from configuration
         final String dashboardsServerUsername = config.getDashboardsServerUsername();//config.dynamic.kibana.server_username;
         final String dashboardsIndexName = config.getDashboardsIndexname();//config.dynamic.kibana.index;
@@ -125,11 +118,7 @@ public class PrivilegesInterceptorImpl extends PrivilegesInterceptor {
         //intercept when requests are not made by the kibana server and if the kibana index/alias (.kibana) is the only index/alias involved
         final boolean dashboardsIndexOnly = !user.getName().equals(dashboardsServerUsername) && resolveToDashboardsIndexOrAlias(requestedResolved, dashboardsIndexName);
         final boolean isTraceEnabled = log.isTraceEnabled();
-        if (requestedTenant == null && !user.getName().equals(dashboardsServerUsername)) {
-            if (dashboardsDefaultTenant != null && dashboardsDefaultTenant.length() != 0) {
-                requestedTenant = dashboardsDefaultTenant;
-            }
-        }
+
         if (requestedTenant == null || requestedTenant.length() == 0) {
             if (isTraceEnabled) {
                 log.trace("No tenant, will resolve to " + dashboardsIndexName);

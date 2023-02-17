@@ -215,8 +215,6 @@ public class RestApiPrivilegesEvaluator {
 			logger.debug("Checking admin access for endpoint {}, path {} and method {}", endpoint.name(),  request.path(), request.method().name());
 		}
 
-		if (endpoint == null) return null;
-
 		// Grant permission for Account endpoint.
 		// Return null to grant access.
 		if (endpoint == Endpoint.ACCOUNT) {

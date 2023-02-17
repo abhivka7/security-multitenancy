@@ -316,6 +316,7 @@ public class BackendRegistry {
             }
 
             final String tenant = Utils.coalesce(request.header("securitytenant"), request.header("security_tenant"));
+
             if (isDebugEnabled) {
                 log.debug("Rest user '{}' is authenticated", authenticatedUser);
                 log.debug("securitytenant '{}'", tenant);

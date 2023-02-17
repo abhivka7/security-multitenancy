@@ -39,7 +39,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 
-import org.apache.kafka.common.record.MemoryRecordsBuilder;
 import org.opensearch.ExceptionsHelper;
 import org.opensearch.common.bytes.BytesReference;
 import org.opensearch.common.xcontent.ToXContent;
@@ -51,11 +50,8 @@ import org.opensearch.security.NonValidatingObjectMapper;
 import org.opensearch.security.securityconf.Hashed;
 import org.opensearch.security.securityconf.Hideable;
 import org.opensearch.security.securityconf.StaticDefinable;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class SecurityDynamicConfiguration<T> implements ToXContent {
-    public static Logger log = LogManager.getLogger();
     private static final TypeReference<HashMap<String,Object>> typeRefMSO = new TypeReference<HashMap<String,Object>>() {};
 
     @JsonIgnore
@@ -90,10 +86,12 @@ public class SecurityDynamicConfiguration<T> implements ToXContent {
         } else {
             sdc = new SecurityDynamicConfiguration<T>();
         }
+
         sdc.ctype = ctype;
         sdc.seqNo = seqNo;
         sdc.primaryTerm = primaryTerm;
         sdc.version = version;
+
         return sdc;
     }
     

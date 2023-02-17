@@ -28,9 +28,6 @@ package org.opensearch.security.action.configupdate;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Arrays;
-
-
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -109,7 +106,6 @@ TransportNodesAction<ConfigUpdateRequest, ConfigUpdateResponse, TransportConfigU
 	
     @Override
     protected ConfigUpdateNodeResponse nodeOperation(final NodeConfigUpdateRequest request) {
-        logger.info(Arrays.toString(request.request.getConfigTypes()));
         configurationRepository.reloadConfiguration(CType.fromStringValues((request.request.getConfigTypes())));
         backendRegistry.get().invalidateCache();
         return new ConfigUpdateNodeResponse(clusterService.localNode(), request.request.getConfigTypes(), null);

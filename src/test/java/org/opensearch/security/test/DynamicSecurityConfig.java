@@ -165,8 +165,6 @@ public class DynamicSecurityConfig {
 
         }
 
-
-
         final String whitelistYmlFile = prefix + securityWhitelist;
         if (null != FileHelper.getAbsoluteFilePathFromClassPath(whitelistYmlFile)) {
             ret.add(new IndexRequest(securityIndexName)

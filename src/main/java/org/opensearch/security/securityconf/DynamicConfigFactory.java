@@ -74,8 +74,6 @@ import org.opensearch.security.securityconf.impl.v7.TenancyConfigV7;
 import org.opensearch.security.support.ConfigConstants;
 import org.opensearch.security.support.WildcardMatcher;
 import org.opensearch.threadpool.ThreadPool;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class DynamicConfigFactory implements Initializable, ConfigurationChangeListener {
     protected final Logger log = LogManager.getLogger(this.getClass());
@@ -279,7 +277,6 @@ public class DynamicConfigFactory implements Initializable, ConfigurationChangeL
     }
 
     private static TenancyConfigV7 getTenancyConfig(SecurityDynamicConfiguration<?> sdc) {
-        final Logger log = LogManager.getLogger();
         @SuppressWarnings("unchecked")
         SecurityDynamicConfiguration<TenancyConfigV7> c = (SecurityDynamicConfiguration<TenancyConfigV7>) sdc;
         return c.getCEntry("tenancy_config");
