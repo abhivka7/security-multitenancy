@@ -48,6 +48,7 @@ import org.opensearch.cluster.service.ClusterService;
 import org.opensearch.security.privileges.PrivilegesInterceptor;
 import org.opensearch.security.resolver.IndexResolverReplacer.Resolved;
 import org.opensearch.security.securityconf.DynamicConfigModel;
+import org.opensearch.security.securityconf.TenancyConfigModel;
 import org.opensearch.security.user.User;
 import org.opensearch.threadpool.ThreadPool;
 
@@ -95,17 +96,18 @@ public class PrivilegesInterceptorImpl extends PrivilegesInterceptor {
      */
     @Override
     public ReplaceResult replaceDashboardsIndex(final ActionRequest request, final String action, final User user, final DynamicConfigModel config,
+                                                final TenancyConfigModel tenancyconfig,
                                                 final Resolved requestedResolved, final Map<String, Boolean> tenants) {
 
-        final boolean enabled = config.isDashboardsMultitenancyEnabled();//config.dynamic.kibana.multitenancy_enabled;
+        final boolean enabled = tenancyconfig.isDashboardsMultitenancyEnabled();//config.dynamic.kibana.multitenancy_enabled;
         log.info("********** Enter action = " + action );
 
         if (!enabled) {
             return CONTINUE_EVALUATION_REPLACE_RESULT;
         }
 
-        final boolean privateTenantEnabled = config.isDashboardsPrivateTenantEnabled();//config.dynamic.kibana.private_tenant_enabled;
-        final String dashboardsDefaultTenant = config.dashboardsDefaultTenant();//config.dynamic.kibana.default_tenant;
+        final boolean privateTenantEnabled = tenancyconfig.isDashboardsPrivateTenantEnabled();//config.dynamic.kibana.private_tenant_enabled;
+        final String dashboardsDefaultTenant = tenancyconfig.dashboardsDefaultTenant();//config.dynamic.kibana.default_tenant;
 
         if (!privateTenantEnabled) {
             return CONTINUE_EVALUATION_REPLACE_RESULT;

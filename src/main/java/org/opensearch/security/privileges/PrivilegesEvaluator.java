@@ -335,7 +335,7 @@ public class PrivilegesEvaluator {
                 } else {
                     if(privilegesInterceptor.getClass() != PrivilegesInterceptor.class) {
 
-                        final PrivilegesInterceptor.ReplaceResult replaceResult = privilegesInterceptor.replaceDashboardsIndex(request, action0, user, dcm, requestedResolved,
+                        final PrivilegesInterceptor.ReplaceResult replaceResult = privilegesInterceptor.replaceDashboardsIndex(request, action0, user, dcm, tcm, requestedResolved,
                                 mapTenants(user, mappedRoles));
 
                         if (isDebugEnabled) {
@@ -419,7 +419,7 @@ public class PrivilegesEvaluator {
 
         if(privilegesInterceptor.getClass() != PrivilegesInterceptor.class) {
 
-            final PrivilegesInterceptor.ReplaceResult replaceResult = privilegesInterceptor.replaceDashboardsIndex(request, action0, user, dcm, requestedResolved, mapTenants(user, mappedRoles));
+            final PrivilegesInterceptor.ReplaceResult replaceResult = privilegesInterceptor.replaceDashboardsIndex(request, action0, user, dcm, tcm, requestedResolved, mapTenants(user, mappedRoles));
 
             if (isDebugEnabled) {
                 log.debug("Result from privileges interceptor: {}", replaceResult);
