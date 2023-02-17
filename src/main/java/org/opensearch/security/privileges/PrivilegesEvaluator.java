@@ -534,7 +534,7 @@ public class PrivilegesEvaluator {
 
     public boolean privateTenantEnabled(){ return tcm.isDashboardsPrivateTenantEnabled(); }
 
-    public String dashboardsDefaultTenant(){ return dcm.dashboardsDefaultTenant(); }
+    public String dashboardsDefaultTenant(){ return tcm.dashboardsDefaultTenant(); }
 
     public boolean notFailOnForbiddenEnabled() {
         return privilegesInterceptor.getClass() != PrivilegesInterceptor.class

@@ -28,5 +28,6 @@ public class TenancyConfigModel {
 
     public boolean isDashboardsMultitenancyEnabled() { return this.tenancyConfig.multitenancy_enabled; };
     public boolean isDashboardsPrivateTenantEnabled() { return this.tenancyConfig.private_tenant_enabled; };
+    public String dashboardsDefaultTenant() { return this.tenancyConfig.default_tenant; };
 }
 

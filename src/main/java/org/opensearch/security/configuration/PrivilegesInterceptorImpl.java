@@ -104,10 +104,10 @@ public class PrivilegesInterceptorImpl extends PrivilegesInterceptor {
             return CONTINUE_EVALUATION_REPLACE_RESULT;
         }
 
-        final boolean privateTenanctEnabled = config.isDashboardsPrivateTenantEnabled();//config.dynamic.kibana.private_tenant_enabled;
+        final boolean privateTenantEnabled = config.isDashboardsPrivateTenantEnabled();//config.dynamic.kibana.private_tenant_enabled;
         final String dashboardsDefaultTenant = config.dashboardsDefaultTenant();//config.dynamic.kibana.default_tenant;
 
-        if (!privateTenanctEnabled) {
+        if (!privateTenantEnabled) {
             return CONTINUE_EVALUATION_REPLACE_RESULT;
         }
 

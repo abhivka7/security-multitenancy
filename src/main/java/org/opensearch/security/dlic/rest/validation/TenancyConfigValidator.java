@@ -23,5 +23,6 @@ public class TenancyConfigValidator extends AbstractConfigurationValidator {
 
         allowedKeys.put("multitenancy_enabled", DataType.BOOLEAN);
         allowedKeys.put("private_tenant_enabled", DataType.BOOLEAN);
+        allowedKeys.put("default_tenant", DataType.STRING);
     }
 }
