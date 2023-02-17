@@ -143,7 +143,6 @@ public class ConfigurationLoaderSecurity7 {
                 // SecurityDynamicConfiguration.
                 if (cType == CType.TENANCYCONFIG) {
                     try {
-                        log.info("************** Tenancy_abhivka Enter ConfigloaderSecurity");
                         SecurityDynamicConfiguration<?> empty = ConfigHelper.createEmptySdc(cType, ConfigurationRepository.getDefaultConfigVersion());
                         rs.put(cType, empty);
                         latch.countDown();

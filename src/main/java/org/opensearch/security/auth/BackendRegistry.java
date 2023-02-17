@@ -176,7 +176,6 @@ public class BackendRegistry {
      * @throws OpenSearchSecurityException
      */
     public boolean authenticate(final RestRequest request, final RestChannel channel, final ThreadContext threadContext) {
-        log.info("******************** Authenticate");
         final boolean isDebugEnabled = log.isDebugEnabled();
         if (request.getHttpChannel().getRemoteAddress() instanceof InetSocketAddress && isBlocked(((InetSocketAddress) request.getHttpChannel().getRemoteAddress()).getAddress())) {
             if (isDebugEnabled) {
