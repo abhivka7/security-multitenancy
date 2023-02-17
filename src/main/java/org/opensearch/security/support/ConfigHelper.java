@@ -55,7 +55,7 @@ import org.opensearch.security.securityconf.impl.SecurityDynamicConfiguration;
 import static org.opensearch.common.xcontent.DeprecationHandler.THROW_UNSUPPORTED_OPERATION;
 
 public class ConfigHelper {
-    
+
     private static final Logger LOGGER = LogManager.getLogger(ConfigHelper.class);
 
     public static void uploadFile(Client tc, String filepath, String index, CType cType, int configVersion) throws Exception {
@@ -67,6 +67,7 @@ public class ConfigHelper {
         LOGGER.info("Will update '" + configType + "' with " + filepath + " and populate it with empty doc if file missing and populateEmptyIfFileMissing=" + populateEmptyIfFileMissing);
 
         if (!populateEmptyIfFileMissing) {
+            LOGGER.info("********* abhivka populateEmptyIfFileMissing");
             ConfigHelper.fromYamlFile(filepath, cType, configVersion, 0, 0);
         }
 

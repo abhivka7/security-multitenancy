@@ -139,6 +139,21 @@ public class ConfigurationLoaderSecurity7 {
                     }
                 }
 
+                // Since TenancyConfig is newly introduced data-type applying for existing clusters as well, we make it backward compatible by returning valid empty
+                // SecurityDynamicConfiguration.
+                if (cType == CType.TENANCYCONFIG) {
+                    try {
+                        log.info("************** Tenancy_abhivka Enter ConfigloaderSecurity");
+                        SecurityDynamicConfiguration<?> empty = ConfigHelper.createEmptySdc(cType, ConfigurationRepository.getDefaultConfigVersion());
+                        rs.put(cType, empty);
+                        latch.countDown();
+                        return;
+                    } catch (Exception e) {
+                        log.info("************** Tenancy_abhivka Enter ConfigloaderSecurity got exception");
+                        throw new RuntimeException(e);
+                    }
+                }
+
                 if(cType == CType.AUDIT) {
                     // Audit configuration doc is not available in the index.
                     // Configuration cannot be hot-reloaded.
@@ -233,12 +248,13 @@ public class ConfigurationLoaderSecurity7 {
         final long seqNo = singleGetResponse.getSeqNo();
         final long primaryTerm = singleGetResponse.getPrimaryTerm();
 
-
-
         if (ref == null || ref.length() == 0) {
             log.error("Empty or null byte reference for {}", id);
             return null;
         }
+
+        log.info("************** Tenancy_abhivka toConfig output : " + ref.utf8ToString());
+
 
         XContentParser parser = null;
 
@@ -255,6 +271,7 @@ public class ConfigurationLoaderSecurity7 {
             parser.nextToken();
 
             final String jsonAsString = SecurityUtils.replaceEnvVars(new String(parser.binaryValue(), StandardCharsets.UTF_8), settings);
+            log.info("************** Tenancy_abhivka toConfig jsonAsString : " + jsonAsString);
             final JsonNode jsonNode = DefaultObjectMapper.readTree(jsonAsString);
             int configVersion = 1;
 
