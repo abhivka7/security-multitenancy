@@ -91,8 +91,8 @@ import org.opensearch.security.resolver.IndexResolverReplacer;
 import org.opensearch.security.resolver.IndexResolverReplacer.Resolved;
 import org.opensearch.security.securityconf.ConfigModel;
 import org.opensearch.security.securityconf.DynamicConfigModel;
-import org.opensearch.security.securityconf.TenancyConfigModel;
 import org.opensearch.security.securityconf.SecurityRoles;
+import org.opensearch.security.securityconf.TenancyConfigModel;
 import org.opensearch.security.support.ConfigConstants;
 import org.opensearch.security.support.WildcardMatcher;
 import org.opensearch.security.user.User;
@@ -534,7 +534,7 @@ public class PrivilegesEvaluator {
 
     public boolean privateTenantEnabled(){ return tcm.isDashboardsPrivateTenantEnabled(); }
 
-    public String dashboardsDefaultTenant(){ return tcm.dashboardsDefaultTenant(); }
+    public String getDashboardsDefaultTenant(){ return tcm.getDashboardsDefaultTenant(); }
 
     public boolean notFailOnForbiddenEnabled() {
         return privilegesInterceptor.getClass() != PrivilegesInterceptor.class

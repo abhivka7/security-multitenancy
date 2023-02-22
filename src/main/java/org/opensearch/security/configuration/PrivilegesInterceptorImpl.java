@@ -96,10 +96,10 @@ public class PrivilegesInterceptorImpl extends PrivilegesInterceptor {
      */
     @Override
     public ReplaceResult replaceDashboardsIndex(final ActionRequest request, final String action, final User user, final DynamicConfigModel config,
-                                                final TenancyConfigModel tenancyconfig,
+                                                final TenancyConfigModel tenancyConfig,
                                                 final Resolved requestedResolved, final Map<String, Boolean> tenants) {
 
-        final boolean enabled = tenancyconfig.isDashboardsMultitenancyEnabled();
+        final boolean enabled = tenancyConfig.isDashboardsMultitenancyEnabled();
 
         if (!enabled) {
             return CONTINUE_EVALUATION_REPLACE_RESULT;

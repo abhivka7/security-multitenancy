@@ -138,7 +138,6 @@ import org.opensearch.security.securityconf.impl.v7.InternalUserV7;
 import org.opensearch.security.securityconf.impl.v7.RoleMappingsV7;
 import org.opensearch.security.securityconf.impl.v7.RoleV7;
 import org.opensearch.security.securityconf.impl.v7.TenantV7;
-import org.opensearch.security.securityconf.impl.v7.TenancyConfigV7;
 import org.opensearch.security.ssl.util.ExceptionUtils;
 import org.opensearch.security.support.ConfigConstants;
 import org.opensearch.security.support.ConfigHelper;
@@ -1387,7 +1386,7 @@ public class SecurityAdmin {
 
 	private static String[] getTypes(boolean legacy) {
 		if (legacy) {
-			return new String[]{"config", "roles", "rolesmapping", "internalusers", "actiongroups", "nodesdn", "audit","tenancyconfig"};
+			return new String[]{"config", "roles", "rolesmapping", "internalusers", "actiongroups", "nodesdn", "audit"};
 		}
 		return CType.lcStringValues().toArray(new String[0]);
 	}

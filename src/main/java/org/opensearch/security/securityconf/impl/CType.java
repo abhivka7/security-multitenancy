@@ -46,8 +46,8 @@ import org.opensearch.security.securityconf.impl.v7.ConfigV7;
 import org.opensearch.security.securityconf.impl.v7.InternalUserV7;
 import org.opensearch.security.securityconf.impl.v7.RoleMappingsV7;
 import org.opensearch.security.securityconf.impl.v7.RoleV7;
-import org.opensearch.security.securityconf.impl.v7.TenantV7;
 import org.opensearch.security.securityconf.impl.v7.TenancyConfigV7;
+import org.opensearch.security.securityconf.impl.v7.TenantV7;
 
 public enum CType {
 

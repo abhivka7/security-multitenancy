@@ -118,6 +118,8 @@ public class ConfigConstants {
     
     public static final String OPENDISTRO_SECURITY_DEFAULT_CONFIG_INDEX = ".opendistro_security";
 
+    public static final boolean populateEmptyIfFileMissing = true;
+
     public static final String SECURITY_ENABLE_SNAPSHOT_RESTORE_PRIVILEGE = "plugins.security.enable_snapshot_restore_privilege";
     public static final boolean SECURITY_DEFAULT_ENABLE_SNAPSHOT_RESTORE_PRIVILEGE = true;
 

@@ -56,7 +56,6 @@ import org.opensearch.security.configuration.StaticResourceException;
 import org.opensearch.security.securityconf.impl.AllowlistingSettings;
 import org.opensearch.security.securityconf.impl.CType;
 import org.opensearch.security.securityconf.impl.NodesDn;
-import org.opensearch.security.securityconf.TenancyConfigModel;
 import org.opensearch.security.securityconf.impl.SecurityDynamicConfiguration;
 import org.opensearch.security.securityconf.impl.WhitelistingSettings;
 import org.opensearch.security.securityconf.impl.v6.ActionGroupsV6;
@@ -69,8 +68,8 @@ import org.opensearch.security.securityconf.impl.v7.ConfigV7;
 import org.opensearch.security.securityconf.impl.v7.InternalUserV7;
 import org.opensearch.security.securityconf.impl.v7.RoleMappingsV7;
 import org.opensearch.security.securityconf.impl.v7.RoleV7;
-import org.opensearch.security.securityconf.impl.v7.TenantV7;
 import org.opensearch.security.securityconf.impl.v7.TenancyConfigV7;
+import org.opensearch.security.securityconf.impl.v7.TenantV7;
 import org.opensearch.security.support.ConfigConstants;
 import org.opensearch.security.support.WildcardMatcher;
 import org.opensearch.threadpool.ThreadPool;
@@ -189,7 +188,7 @@ public class DynamicConfigFactory implements Initializable, ConfigurationChangeL
         final WhitelistingSettings whitelist = (WhitelistingSettings) cr.getConfiguration(CType.WHITELIST).getCEntry("config");
         final AllowlistingSettings allowlist = (AllowlistingSettings) cr.getConfiguration(CType.ALLOWLIST).getCEntry("config");
         final AuditConfig audit = (AuditConfig)cr.getConfiguration(CType.AUDIT).getCEntry("config");
-        final TenancyConfigModel tcm ;
+        final TenancyConfigModel tcm;
 
         if(config.getImplementingClass() == ConfigV7.class) {
                 //statics

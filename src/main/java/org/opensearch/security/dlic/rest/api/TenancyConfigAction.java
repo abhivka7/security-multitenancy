@@ -1,8 +1,35 @@
+/*
+ * Copyright 2015-2017 floragunn GmbH
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+/*
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * The OpenSearch Contributors require contributions made to
+ * this file be licensed under the Apache-2.0 license or a
+ * compatible open source license.
+ *
+ * Modifications Copyright OpenSearch Contributors. See
+ * GitHub history for details.
+ */
+
+
 package org.opensearch.security.dlic.rest.api;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Collections;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -22,12 +49,10 @@ import org.opensearch.security.configuration.AdminDNs;
 import org.opensearch.security.configuration.ConfigurationRepository;
 import org.opensearch.security.dlic.rest.validation.AbstractConfigurationValidator;
 import org.opensearch.security.dlic.rest.validation.TenancyConfigValidator;
-import org.opensearch.security.dlic.rest.validation.SecurityConfigValidator;
 import org.opensearch.security.privileges.PrivilegesEvaluator;
 import org.opensearch.security.securityconf.impl.CType;
 import org.opensearch.security.securityconf.impl.SecurityDynamicConfiguration;
 import org.opensearch.security.ssl.transport.PrincipalExtractor;
-import org.opensearch.security.support.ConfigConstants;
 import org.opensearch.threadpool.ThreadPool;
 
 import static org.opensearch.security.dlic.rest.support.Utils.addRoutesPrefix;
@@ -38,11 +63,12 @@ public class TenancyConfigAction extends PatchableResourceApiAction{
             .addAll(addRoutesPrefix(
                     ImmutableList.of(
                             new Route(Method.GET, "/tenancyconfig/"),
-                            new Route(Method.PUT, "/tenancyconfig/"),
+                            new Route(Method.PUT, "/tenancyconfig/{name}"),
                             new Route(Method.PATCH, "/tenancyconfig/")
                     )
             ))
             .build();
+    private PrivilegesEvaluator evaluator;
 
     @Inject
     public TenancyConfigAction(Settings settings, Path configPath, RestController controller, Client client,
@@ -50,6 +76,8 @@ public class TenancyConfigAction extends PatchableResourceApiAction{
                                PrincipalExtractor principalExtractor, PrivilegesEvaluator evaluator,
                                ThreadPool threadPool, AuditLog auditLog) {
         super(settings, configPath, controller, client, adminDNs, cl, cs, principalExtractor, evaluator, threadPool, auditLog);
+        this.evaluator = evaluator;
+
     }
 
     @Override
@@ -68,7 +96,7 @@ public class TenancyConfigAction extends PatchableResourceApiAction{
 
     @Override
     protected AbstractConfigurationValidator getValidator(RestRequest request, BytesReference ref, Object... params) {
-        return new TenancyConfigValidator(request, ref, this.settings, params);
+        return new TenancyConfigValidator(request, ref, this.settings, this.evaluator, params);
     }
 
     @Override

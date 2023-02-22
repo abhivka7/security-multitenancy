@@ -114,7 +114,7 @@ public class SecurityInfoAction extends BaseRestHandler {
                     builder.field("sso_logout_url", (String)threadContext.getTransient(ConfigConstants.SSO_LOGOUT_URL));
                     builder.field("tenancy_enabled", evaluator.multitenancyEnabled());
                     builder.field("private_tenant_enabled", evaluator.privateTenantEnabled());
-                    builder.field("default_tenant", evaluator.dashboardsDefaultTenant());
+                    builder.field("default_tenant", evaluator.getDashboardsDefaultTenant());
                     
                     if(user != null && verbose) {
                         try {
