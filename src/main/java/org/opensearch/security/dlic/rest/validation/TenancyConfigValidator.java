@@ -55,8 +55,12 @@ public class TenancyConfigValidator extends AbstractConfigurationValidator {
         final Map<String, Object> contentAsMap = XContentHelper.convertToMap(this.content, false, XContentType.JSON).v2();
 
         String default_tenant = (String) contentAsMap.get("default_tenant");
+
         log.info("************** Tenancy_abhivka validate contentAsMap = " + contentAsMap.toString());
         log.info("************** Tenancy_abhivka validate default_tenant = " + default_tenant);
+
+        Boolean isPrivateTenantEnabled = (Boolean) contentAsMap.get("private_tenant_enabled");
+        log.info("************** Tenancy_abhivka validate private tenant in content = " + isPrivateTenantEnabled);
 
 
         log.info("************** Tenancy_abhivka validate default_tenant 2  = " + this.evaluator.getDashboardsDefaultTenant());
@@ -66,7 +70,7 @@ public class TenancyConfigValidator extends AbstractConfigurationValidator {
         log.info("************** Tenancy_abhivka validate all tenants = " + this.evaluator.getAllConfiguredTenantNames());
 
         Set<String> availableTenants = this.evaluator.getAllConfiguredTenantNames();
-        Boolean isPrivateTenantEnabled = this.evaluator.privateTenantEnabled();
+
         log.info("************** Tenancy_abhivka isPrivateTenantEnabled = " + isPrivateTenantEnabled);
 
         if(default_tenant.equals("Private"))
@@ -77,8 +81,8 @@ public class TenancyConfigValidator extends AbstractConfigurationValidator {
                 log.info("************** Tenancy_abhivka MY case 7");
                 return true;
             }
-//            log.info("************** Tenancy_abhivka MY case 9");
-//            return false;
+            log.info("************** Tenancy_abhivka MY case 9");
+            return false;
         }
 
         if(default_tenant == null)
