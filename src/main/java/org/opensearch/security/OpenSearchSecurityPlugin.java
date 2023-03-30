@@ -115,6 +115,17 @@ import org.opensearch.search.internal.SearchContext;
 import org.opensearch.search.query.QuerySearchResult;
 import org.opensearch.security.action.configupdate.ConfigUpdateAction;
 import org.opensearch.security.action.configupdate.TransportConfigUpdateAction;
+import org.opensearch.security.action.tenancy.*;
+import org.opensearch.security.action.tenancy.PrivateTenantEnabledRetrieveAction;
+import org.opensearch.security.action.tenancy.PrivateTenantEnabledRetrieveTransportAction;
+import org.opensearch.security.action.tenancy.PrivateTenantEnabledUpdateAction;
+import org.opensearch.security.action.tenancy.PrivateTenantEnabledUpdateTransportAction;
+import org.opensearch.security.action.tenancy.PrivateTenantEnabledRestHandler;
+import org.opensearch.security.action.tenancy.DefaultTenantRetrieveAction;
+import org.opensearch.security.action.tenancy.DefaultTenantRetrieveTransportAction;
+import org.opensearch.security.action.tenancy.DefaultTenantUpdateAction;
+import org.opensearch.security.action.tenancy.DefaultTenantUpdateTransportAction;
+import org.opensearch.security.action.tenancy.DefaultTenantRestHandler;
 import org.opensearch.security.action.whoami.TransportWhoAmIAction;
 import org.opensearch.security.action.whoami.WhoAmIAction;
 import org.opensearch.security.auditlog.AuditLog;
@@ -469,6 +480,9 @@ public final class OpenSearchSecurityPlugin extends OpenSearchSecuritySSLPlugin 
                         Objects.requireNonNull(cs), Objects.requireNonNull(adminDns), Objects.requireNonNull(cr)));
                 handlers.add(new SecurityConfigUpdateAction(settings, restController, Objects.requireNonNull(threadPool), adminDns, configPath, principalExtractor));
                 handlers.add(new SecurityWhoAmIAction(settings, restController, Objects.requireNonNull(threadPool), adminDns, configPath, principalExtractor));
+                handlers.add(new MutliTenancyRestHandler());
+                handlers.add(new PrivateTenantEnabledRestHandler(Objects.requireNonNull(evaluator)));
+                handlers.add(new DefaultTenantRestHandler(Objects.requireNonNull(evaluator)));
                 handlers.addAll(
                         SecurityRestApiActions.getHandler(
                                 settings,
@@ -505,6 +519,15 @@ public final class OpenSearchSecurityPlugin extends OpenSearchSecuritySSLPlugin 
         if(!disabled && !SSLConfig.isSslOnlyMode()) {
             actions.add(new ActionHandler<>(ConfigUpdateAction.INSTANCE, TransportConfigUpdateAction.class));
             actions.add(new ActionHandler<>(WhoAmIAction.INSTANCE, TransportWhoAmIAction.class));
+
+            actions.add(new ActionHandler<>(MultiTenancyRetrieveAction.INSTANCE, MultiTenancyRetrieveTransportAction.class));
+            actions.add(new ActionHandler<>(MultiTenancyUpdateAction.INSTANCE, MultiTenancyUpdateTransportAction.class));
+
+            actions.add(new ActionHandler<>(PrivateTenantEnabledRetrieveAction.INSTANCE, PrivateTenantEnabledRetrieveTransportAction.class));
+            actions.add(new ActionHandler<>(PrivateTenantEnabledUpdateAction.INSTANCE, PrivateTenantEnabledUpdateTransportAction.class));
+
+            actions.add(new ActionHandler<>(DefaultTenantRetrieveAction.INSTANCE, DefaultTenantRetrieveTransportAction.class));
+            actions.add(new ActionHandler<>(DefaultTenantUpdateAction.INSTANCE, DefaultTenantUpdateTransportAction.class));
         }
         return actions;
     }
